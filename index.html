@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Naukri - Opening Job...</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+        }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 12px 24px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔥 Quick Naukri</h1>
+        <div class="loader"></div>
+        <p id="message">Opening job in app...</p>
+        <div id="buttons" style="display: none; margin-top: 20px;">
+            <p>App not installed?</p>
+            <a href="https://play.google.com/store/apps/details?id=com.quicknaukri.naukri" class="btn">📱 Android</a>
+            <a href="https://apps.apple.com/in/app/quick-naukri-job-search/id1663802141" class="btn">📱 iOS</a>
+        </div>
+    </div>
+
+    <script>
+        // Get job ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const jobId = urlParams.get('id') || window.location.pathname.split('/').pop();
+
+        if (jobId) {
+            // Try to open app with deep link
+            const deepLink = `quicknaukri://job/${jobId}`;
+            
+            // Attempt to open the app
+            window.location.href = deepLink;
+            
+            // Show download buttons after 2 seconds if app didn't open
+            setTimeout(() => {
+                document.getElementById('message').textContent = 'App not opening?';
+                document.getElementById('buttons').style.display = 'block';
+            }, 2000);
+        } else {
+            document.getElementById('message').textContent = 'Invalid job link';
+            document.getElementById('buttons').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
